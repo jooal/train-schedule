@@ -97,7 +97,7 @@ var minutesLeft=frequency - remainder;
 var nextTrain = moment().add(minutesLeft, "minutes").format("hh:mm");
     console.log("Next Train Arrival Time: "+ moment(nextTrain).format("hh:mm"));
     
-$("#tableContents").append("<tr><td>" + '<i class="fa fa-trash" id="trashcan" aria-hidden="true"></i>' + "</td><td>" + name + "</td><td>" + destination + "</td><td>" +
+$("#tableContents").append("<tr><td>" + '<i class="fa fa-times" aria-hidden="true"></i>' + "</td><td>" + name + "</td><td>" + destination + "</td><td>" +
 freqMin + "</td><td>" + nextArrival + "</td><td>" + minutesAway + "</td></tr>");
     
 
