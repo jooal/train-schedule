@@ -1,6 +1,14 @@
 // var now = new Date();
 
-  // Initialize Firebase
+function showTime () {
+    var d = new Date();
+    document.getElementById("current-time").textContent= ("Current Time: " + d);
+    console.log(d);
+};
+showTime();
+
+
+// Initialize Firebase
   var config = {
     apiKey: "AIzaSyA6mltaOjLnzEwJPBSY_stAa9tEO73QWt8",
     authDomain: "train-schedule-30297.firebaseapp.com",
@@ -11,9 +19,7 @@
   };
   firebase.initializeApp(config);
 
-var database = firebase.database();
-
-var today = new Date();
+ var database = firebase.database();
 
 var trainData = {
     name: '',
@@ -24,23 +30,34 @@ var trainData = {
     minutesAway: 0,
 }
 
+//delete a train function
+$("#delete").on("click", function () {
+    $(this).closest("tr").remove();
+    console.log("train removed");
+});
 
 $("#submit").on("click", function () {
-    trainData.name = $('#name').val();
-    trainData.destination = $('#destination').val();
-    trainData.firstTime = $('#time').val()
-    trainData.freqMin=$('#frequency').val()
+    event.preventDefault();
+    trainData.name = $("#name").val().trim();
+    trainData.destination = $("#destination").val().trim();
+    trainData.firstTime = $("#time").val().trim();
+    trainData.freqMin=$("#frequency").val().trim();
 
     //create local variables 
-var newTrain ={
-    name=name,
-    destination=destination, 
-    firstTime=firstTime,
-    freqMin=freqMin,
-    nextArrival=nextArrival,
-    minutesAway=minutesAway,
-};
+    var newTrain = {
+    formName: name,
+    formDestination:destination, 
+    formFirstTime:firstTime,
+    formFreqMin:freqMin,
+    formNextArrival:nextArrival,
+    formMinutesAway:minutesAway,
+};  
 database.ref().push(newTrain)
+
+console.log(trainData.formName);
+console.log(trainData.formDestination);
+console.log(trainData.formFirstTime);
+console.log(trainData.formFrequency);
 
   // Clears all of the text-boxes
   $("#name").val("");
@@ -49,9 +66,12 @@ database.ref().push(newTrain)
   $("#frequency").val("");
 });
 
-database.ref().on("child_added", function (childSnapshot) {
-    $('#tableContents').append('<tr>' + '<td>' + childSnapshot.val().name + '<td>' + childSnapshot.val().destination + '<td>' + childSnapshot.val().firstTime + '<td>' + childSnapshot.val().freqMin + '<td>' + childSnapshot.val().nextArrival)
 
+database.ref().on("child_added", function (childSnapshot) {
+    var name = childSnapshot.val().formName; 
+    var destination = childSnapshot.val().formDestination;
+    var frequency = childSnapshot.val().formFreqMin;
+    var firstTime = childSnapshot.val().formFirstTime;
 
 //get time of first train
     var firstTrainTime = moment(firstTime, "hh:mm");
@@ -66,23 +86,27 @@ database.ref().on("child_added", function (childSnapshot) {
         console.log("DIFFERENCE IN TIME: " + diffInTime);
  
 //divide the difference in time in minutes by freq of train
-    var remainder = diffInTime % freqMin;
+    var remainder = diffInTime % frequency;
         console.log(remainder);
 
 //find out minutes until next train by taking freqmin and subtracting the remainder 
-var minutesLeft=freqMin - remainder;
+var minutesLeft=frequency - remainder;
     console.log(minutesLeft);
 
 //figure out next train
 var nextTrain = moment().add(minutesLeft, "minutes").format("hh:mm");
     console.log("Next Train Arrival Time: "+ moment(nextTrain).format("hh:mm"));
-
-$("#tableContents").append("<tr><td>" + "</td><td>" + name + "</td><td>" + destination + "</td><td>" +
+    
+$("#tableContents").append("<tr><td>" + '<i class="fa fa-trash" id="trashcan" aria-hidden="true"></i>' + "</td><td>" + name + "</td><td>" + destination + "</td><td>" +
 freqMin + "</td><td>" + nextArrival + "</td><td>" + minutesAway + "</td></tr>");
+    
 
 }, function(errorObject) {
     console.log("The read failed: " + errorObject.code);
-  });
+  
+  
+});
+
 
 
 
