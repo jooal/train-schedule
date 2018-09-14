@@ -22,12 +22,12 @@ showTime();
  var database = firebase.database();
 
 var trainData = {
-    name: '',
-    destination: '',
-    firstTime:'',
-    freqMin: '',
-    nextArrival: 0,
-    minutesAway: 0,
+    formName: '',
+    formDestination: '',
+    formFirstTime:'',
+    formFreqMin: '',
+    formNextArrival: 0,
+    formMinutesAway: 0,
 }
 
 //delete a train function
@@ -38,10 +38,10 @@ $("#delete").on("click", function () {
 
 $("#submit").on("click", function () {
     event.preventDefault();
-    trainData.name = $("#name").val().trim();
-    trainData.destination = $("#destination").val().trim();
-    trainData.firstTime = $("#time").val().trim();
-    trainData.freqMin=$("#frequency").val().trim();
+    var name = $("#name").val().trim();
+    var destination = $("#destination").val().trim();
+    var firstTime = $("#time").val().trim();
+    var freqMin=$("#frequency").val().trim();
 
     //create local variables 
     var newTrain = {
@@ -70,7 +70,7 @@ console.log(trainData.formFrequency);
 database.ref().on("child_added", function (childSnapshot) {
     var name = childSnapshot.val().formName; 
     var destination = childSnapshot.val().formDestination;
-    var frequency = childSnapshot.val().formFreqMin;
+    var freqMin = childSnapshot.val().formFreqMin;
     var firstTime = childSnapshot.val().formFirstTime;
 
 //get time of first train
@@ -90,7 +90,7 @@ database.ref().on("child_added", function (childSnapshot) {
         console.log(remainder);
 
 //find out minutes until next train by taking freqmin and subtracting the remainder 
-var minutesLeft=frequency - remainder;
+var minutesLeft=freqMin - remainder;
     console.log(minutesLeft);
 
 //figure out next train
