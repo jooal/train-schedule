@@ -1,5 +1,5 @@
 .jumbotron {
-    background-color: #333;
+    background-color: lightseagreen;
     color: white;
     padding: 30px;
  }
@@ -9,7 +9,7 @@
  }
  
  h4 {
-    background-color: lightgrey;
+    background-color: lightseagreen;
     padding: 10px;
     margin-top: 0px;
  }
@@ -19,6 +19,7 @@
     border-style: solid;
     border-width: 2px;
     border-color: lightgrey;
+    margin-bottom: 50px;
  }
  
  .form-group {
@@ -30,6 +31,7 @@
 
  button {
      margin-left: 20px;
+ 
  }
 
 
