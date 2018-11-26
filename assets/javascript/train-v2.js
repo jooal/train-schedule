@@ -115,10 +115,12 @@ var deleteTrain = $("#delete");
     
 
     $(document).on("click", ".delete", function () {
+        
     var thisNumber = $(this).attr("data-to-delete");
+    var thisDiv = $("#item-" + thisNumber)
     console.log(thisNumber)
-    $("#item-" + thisNumber).remove();
-    database.ref("items/item" + thisNumber).remove()
+    thisDiv.remove();
+    database.ref("train-schedule-30297" + thisNumber).remove()
     console.log("click")
 });
 
