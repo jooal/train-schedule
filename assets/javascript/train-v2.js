@@ -109,19 +109,31 @@ var nextTrain = moment().add(tMinutes, "minutes").format("hh:mm A");
 //$("#delete-train").append("<tr><td>" + deleteTrain);
 });
 
+var deleteTrain = $("#delete");
+    deleteTrain.attr("data-to-delete", num);
+    deleteTrain.addClass("delete");
+    
+
+    $(document).on("click", ".delete", function () {
+    var thisNumber = $(this).attr("data-to-delete");
+    console.log(thisNumber)
+    $("#item-" + thisNumber).remove();
+    database.ref("items/item" + thisNumber).remove()
+    console.log("click")
+});
 
 //delete a train function
-$("body").on("click", "#delete", function () {
+// $("body").on("click", "#delete", function () {
      
-    var thisTrain = $(this).attr("data-to-delete");
-    //var thisDiv=$("#item-", thisTrain);
+//     var thisTrain = $(this).attr("data-to-delete");
+//     //var thisDiv=$("#item-", thisTrain);
  
 
-  $(this).closest("tr").remove();
-  //var deleteMe= $(this).closest(thisTrain);
-  database.ref("items/item" + thisTrain).remove()
+//   $(this).closest("tr").remove();
+//   //var deleteMe= $(this).closest(thisTrain);
+//   database.ref("items/item" + thisTrain).remove()
    
- });
+//  });
 
 
 //'<i class="fa fa-times" id="delete" aria-hidden="true"></i>'
